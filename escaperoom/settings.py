@@ -64,10 +64,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'escaperoom.urls'
 
+TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['TEMPLATES_DIRS'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,16 +86,25 @@ WSGI_APPLICATION = 'escaperoom.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+import django_heroku
+import dj_database_url
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': '<DATABASE>',
         'USER': '<USER>',
         'PASSWORD': '<PASSWORD>',
         'HOST': '<HOST>',
         'PORT': '<PORT>',
     }
+}
+
+DATABASES = {
+    'default': dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    ),
 }
 
 STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
@@ -134,7 +144,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 # Add this variable to specify where successful logins should redirect to
 LOGIN_REDIRECT_URL = '/rooms/'
@@ -150,5 +161,4 @@ CRISPY_TEMPLATE_PACK = 'tailwind'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import django_heroku
 django_heroku.settings(locals())

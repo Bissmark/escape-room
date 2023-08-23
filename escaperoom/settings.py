@@ -90,22 +90,31 @@ import django_heroku
 import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '<DATABASE>',
-        'USER': '<USER>',
-        'PASSWORD': '<PASSWORD>',
-        'HOST': '<HOST>',
-        'PORT': '<PORT>',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": 'escaperooms',
     }
 }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    ),
-}
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': '<DATABASE>',
+#         'USER': '<USER>',
+#         'PASSWORD': '<PASSWORD>',
+#         'HOST': '<HOST>',
+#         'PORT': '<PORT>',
+#     }
+# }
+
+# DATABASES['default'] = dj_database_url.config(
+#     default='postgres://<postgresql>',
+#     conn_max_age=600,
+#     conn_health_checks=True,
+# )
 
 STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
 

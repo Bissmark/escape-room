@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Room Details</h1>
+
+<div class="row">
+  <div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ room.name }}</span>
+        <p>Description: {{ room.description }}</p>
+        <p>Difficulty: {{ room.difficulty }}</p>
+        <p>Number of Puzzles: {{ room.puzzle_set.count }}</p>
+        <p>Players: {{ room.players }}</p>
+        <p>Duration: {{ room.duration }}</p>
+        <p>Price: {{ room.price }}</p>
+        <p>Location: {{ room.location }}</p>
+    </div>
+      <div>
+        <form action="{% url 'add_puzzle' room.id %}" method="post">
+          {% csrf_token %}
+          <label for="puzzle">Select Puzzle:</label>
+          <select name="puzzle_id">
+              {% for puzzle in puzzles_for_room %}
+                  <option value="{{ puzzle.id }}">
+                    {{ puzzle.name }}
+                  </option>
+              {% endfor %}
+          </select>
+          <input type="submit" value="Add Puzzle">
+        </form>
+
+        <h2>Puzzles in this Room </h2>
+        <ul>
+            {% for puzzle in room.puzzle_set.all %}
+                <li>
+                    <a href="{% url 'puzzles_detail' puzzle.id %}">{{ puzzle.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- <a href="{% url 'add_puzzle' room.id %}" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add a Puzzle</a>
+        <a href="{% url 'rooms_update' room.id %}" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Edit</a>
+        <a href="{% url 'rooms_delete' room.id %}" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</a> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

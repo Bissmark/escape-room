@@ -1,18 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Puzzle List</h1>
+<h1 class="text-4xl text-center font-bold mb-2 mt-10">Puzzle List</h1>
 
-{% for puzzle in puzzle_list %}
-  <a href="{% url 'puzzles_detail' puzzle.id %}">
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ puzzle.name }}</span>
-            <p>Description: {{ puzzle.description }}</p>
-            <p>Difficulty: {{ puzzle.difficulty }}</p>
+<div class="flex flex-row justify-center rounded-lg">
+    {% for puzzle in puzzles %}
+        <div class="bg-yellow-200 text-rose-400 flex justify-center w-52 mr-5">
+            <a href="{% url 'puzzles_detail' puzzle.id %}">
+                <p>Name: {{ puzzle.name }}</p>
+                <p>Description: {{ puzzle.description }}</p>
+                <p>Difficulty: {{ puzzle.difficulty }}</p>
+                <p>Room: {{ room.name }}</p>
+                <p>Lock: {{ puzzle.lock }}</p>
+            </a>
         </div>
-    </div>
-  </a>
-{% endfor %}
+    {% endfor %}    
+</div>
+  
+
+
 
 {% endblock %}

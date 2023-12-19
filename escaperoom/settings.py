@@ -64,6 +64,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'escaperoom.urls'
 
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -82,23 +83,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'escaperoom.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+
+import django_heroku
+import dj_database_url
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': '<DATABASE>',
-        'USER': '<USER>',
-        'PASSWORD': '<PASSWORD>',
-        'HOST': '<HOST>',
-        'PORT': '<PORT>',
+        'NAME': 'escaperooms'
     }
 }
 
-STATIC_ROOT = os.path.join(BASE_DIR / 'staticfiles')
-
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -134,7 +133,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Add this variable to specify where successful logins should redirect to
 LOGIN_REDIRECT_URL = '/rooms/'
@@ -150,5 +149,5 @@ CRISPY_TEMPLATE_PACK = 'tailwind'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-import django_heroku
+
 django_heroku.settings(locals())

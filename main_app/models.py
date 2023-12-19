@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class Room(models.Model):
     name = models.CharField(max_length=100)
-    description = models.TextField(max_length=250)
+    description = models.CharField(max_length=250)
     difficulty = models.CharField(max_length=100)
     players = models.IntegerField()
     duration = models.CharField(max_length=100)
@@ -21,14 +21,15 @@ class Room(models.Model):
 class Puzzle(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
-    difficulty = models.CharField(max_length=100)
+    difficulty = models.IntegerField()
+    lock = models.CharField(max_length=100, default='None')
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
     
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'puzzle_id': self.id})
+        return reverse('puzzles_detail', kwargs={'puzzle_id': self.id})
     
 class Review(models.Model):
     date = models.DateField('date published')
@@ -40,7 +41,8 @@ class Review(models.Model):
     
 class Photo(models.Model):
     url = models.CharField(max_length=200)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    # room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    puzzle = models.ForeignKey(Puzzle, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"Photo for room_id: {self.room_id} @{self.url}"
+        return f"Photo for puzzle_id: {self.puzzle_id} @{self.url}"

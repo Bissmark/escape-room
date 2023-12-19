@@ -1,22 +1,24 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Rooms List</h1>
+<h1 class="text-center">Rooms List</h1>
 
-{% for room in rooms %}
-    <a href="{% url 'detail' room.id %}">
-    <div class="card">
-        <div class="card-content">
-            <span class="card-title">{{ room.name }}</span>
-            <p>Description: {{ room.description|linebreaks}}</p>
-            <p>Difficulty: {{ room.difficulty }}</p>
-            <p>How many Players?: {{ room.players }}</p>
-            <p>Duration: {{ room.duration }}</p>
-            <p>Price: {{ room.price }}</p>
-            <p>Location: {{ room.location }}</p>
+<div class="flex flex-row justify-center">
+    {% for room in rooms %}
+        <div class="bg-slate-500 rounded flex justify-center w-52 mr-5">
+            <a href="{% url 'detail' room.id %}">
+                <div >
+                    <span >{{ room.name }}</span>
+                    <p>Description: {{ room.description }}</p>
+                    <p>Difficulty: {{ room.difficulty }}</p>
+                    <p>How many Players: {{ room.players }}</p>
+                    <p>Duration: {{ room.duration }} mins</p>
+                    <p>Price: ${{ room.price }}</p>
+                    <p>Location: {{ room.location }}</p>
+                </div>
+            </a>
         </div>
-    </div>
-    </a>
-{% endfor %}
+    {% endfor %}
+</div>
 
 {% endblock %}

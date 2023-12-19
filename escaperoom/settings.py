@@ -68,7 +68,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['TEMPLATES_DIRS'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,6 +85,8 @@ WSGI_APPLICATION = 'escaperoom.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+import django_heroku
+import dj_database_url
 
 import django_heroku
 import dj_database_url
@@ -148,6 +150,5 @@ CRISPY_TEMPLATE_PACK = 'tailwind'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 django_heroku.settings(locals())

@@ -1,0 +1,74 @@
+<form action="{% url 'submit' %}" method="post" id="lock-form" class="text-center">
+    {% csrf_token %}
+    <div class="flex flex-col items-center">
+        <div class="relative w-40 h-40 bg-gray-300 rounded-full mb-4">
+            <div class="absolute w-4/5 h-4/5 bg-blue-300 rounded-full  top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2">
+                    <div class="cursor-pointer text-xl hover:text-blue-600" onclick="rotate('N')">▲</div>
+                    <div class="text-xs absolute -top-4 left-1/2 transform -translate-x-1/2">ABC123</div>
+                </div>
+                <div class="absolute top-1/2 left-full transform -translate-y-1/2 -translate-x-full rotate-90">
+                    <div class="cursor-pointer text-xl hover:text-blue-600" onclick="rotate('E')">▲</div>
+                    <div class="text-xs absolute bottom-4 -right-12 transform -translate-y-1/2 -translate-x-full">DEF456</div>
+                </div>
+                <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 -rotate-180">
+                    <div class="cursor-pointer text-xl hover:text-blue-600" onclick="rotate('S')">▲</div>
+                    <div class="text-xs absolute bottom-7 left-1/2 transform -translate-x-1/2 rotate-180">GHI789</div>
+                </div>
+                <div class="absolute top-1/2 right-full transform -translate-y-1/2 translate-x-full -rotate-90">
+                    <div class="cursor-pointer text-xl hover:text-blue-600" onclick="rotate('W')">▲</div>
+                    <div class="text-xs absolute -top-1 right-6 transform -translate-y-1/2 translate-x-full">123ABC</div>
+                </div>
+                <input type="hidden" name="lock-combination" id="lock-combination" value="ABC123">
+            </div>
+            <button class="w-full text-green-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg" type="submit">⬤</button>
+        </div>
+    </div>
+</form>
+
+<div id="result" class="text-center"></div>
+
+<script>
+    // ... (unchanged JavaScript code)
+</script>
+
+
+<script>
+    const rotate = (direction) => {
+        const combinationElement = document.getElementById('combination');
+        const currentCombination = combinationElement.innerText;
+
+        // Rotate the combination based on the selected direction
+        const rotatedCombination = rotateCombination(currentCombination, direction);
+
+        // Update the combination display
+        combinationElement.innerText = rotatedCombination;
+
+        // Update the hidden input value
+        document.getElementById('lock-combination').value = rotatedCombination;
+    }
+
+    const rotateCombination = (combination, direction) => {
+        // Perform rotation logic based on the selected direction
+        const rotationMap = {
+            'N': combination.slice(-1) + combination.slice(0, -1),
+            'E': combination.slice(1) + combination.slice(0, 1),
+            'W': combination.slice(-1) + combination.slice(0, -1),
+            'S': combination.slice(1) + combination.slice(0, 1),
+        };
+
+        return rotationMap[direction];
+    }
+
+    document.getElementById('lock-form').addEventListener('submit', function (event) {
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+
+        // Get the lock combination from the hidden input
+        const lockCombination = document.getElementById('lock-combination').value;
+
+        // Display the combination in the resultElement
+        const resultElement = document.getElementById('result');
+        resultElement.innerText = lockCombination;
+    });
+</script>

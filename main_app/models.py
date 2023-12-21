@@ -19,10 +19,18 @@ class Room(models.Model):
         return reverse('detail', kwargs={'room_id': self.id})
     
 class Puzzle(models.Model):
+    LOCK_CHOICES = [
+        ('None', 'None'),
+        ('Key', 'Key'),
+        ('number', 'Number'),
+        ('letter', 'Letter'),
+        ('dial', 'Dial')
+    ]
+
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     difficulty = models.IntegerField()
-    lock = models.CharField(max_length=100, default='None')
+    lock = models.CharField(max_length=100, choices=LOCK_CHOICES, default='None')
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):

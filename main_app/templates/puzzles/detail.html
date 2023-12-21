@@ -10,9 +10,29 @@
                 <span class="">{{ puzzle.name }}</span>
                 <p>Description: {{ puzzle.description }}</p>
                 <p>Difficulty: {{ puzzle.difficulty }}</p>
-                <p>Lock: {{ puzzle.lock }}</p>
+
+                {% if puzzle.lock == 'number' %}
+                    <p>Lock: {{ puzzle.lock }}</p>
+
+                    {% include 'numberCounter.html' %}
+                
+                {% elif puzzle.lock == 'letter' %}
+                    <p>Lock: {{ puzzle.lock }}</p>
+
+                    {% include 'letterCounter.html' %}
+                
+                {% elif puzzle.lock == 'dial' %}
+                    <p>Lock: {{ puzzle.lock }}</p>
+
+                    {% include 'dialCounter.html' %}
+
+                {% else %}
+                    <p>Lock: {{ puzzle.lock }}</p>
+                {% endif %}
+
+
                 {% for photo in puzzle.photo_set.all %}
-                <img src="{{ photo.url }}">
+                    <img src="{{ photo.url }}">
                 {% endfor %}
             </div>
             <div class="">
@@ -22,75 +42,6 @@
         </div>
     </div>
 </div>
-
-<!-- <div>
-    {% for _ in "abcd" %}
-        <div class="custom-select-container">
-            <button class="arrow-button" onclick="decrementSelect('select{{ forloop.counter }}')">▲</button>
-            <select class="h-32 w-8 bg-slate-600 custom-dropdown" id="select{{ forloop.counter }}" onchange="updateValue(this)">
-                {% for i in "123456789" %}
-                    <option value="{{ i }}">{{ i }}</option>
-                {% endfor %}
-            </select>
-            <button class="arrow-button" onclick="incrementSelect('select{{ forloop.counter }}')">▼</button>
-        </div>
-    {% endfor %}
-    <button>Submit</button>
-
-    <script>
-        function incrementSelect(selectId) {
-            var select = document.getElementById(selectId);
-            if (select.selectedIndex < select.options.length - 1) {
-                select.selectedIndex += 1;
-            }
-            updateValue(select);
-        }
-
-        function decrementSelect(selectId) {
-            var select = document.getElementById(selectId);
-            if (select.selectedIndex > 0) {
-                select.selectedIndex -= 1;
-            }
-            updateValue(select);
-        }
-
-        function updateValue(select) {
-            var selectedOption = select.options[select.selectedIndex];
-            select.previousElementSibling.innerText = selectedOption.innerText;
-        }
-    </script>
-</div>
-
-<style>
-    .custom-select-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .arrow-button {
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-    }
-</style> -->
-<form action="{% url 'submit' %}" method="post" id="counter-form">
-    {% csrf_token %}
-    <div class="flex flex-row bg-red-500 mx-auto w-1/2 rounded-sm">
-        {% for counter in "abcd" %}
-            <div class="flex flex-col w-full items-center border-solid border-2 border-gray-500">
-                <button type="button" onclick="increment('{{ counter }}')">▲</button>
-                <h1 id="counter-{{ counter }}">1</h1>
-                <button type="button" onclick="decrement('{{ counter }}')">▼</button>
-                <input type="hidden" name="counter-{{ counter }}" value="1">
-            </div>
-        {% endfor %}
-        <button class="w-full text-blue-500" type="submit">⬤</button>
-    </div>
-</form>
-
-<div id="result"></div>
 
 <script>
     const increment = (counter) => {
@@ -125,18 +76,11 @@
         // Prevent the form from submitting immediately
         event.preventDefault();
 
-        // Simulate the form submission (you can replace this with an actual AJAX request if needed)
-        const formValues = new FormData(this);
+        const dialValues = Array.from(document.querySelectorAll('[name^="counter-"]')).map(input => input.value);
+
+        // Display the values in the resultElement
         const resultElement = document.getElementById('result');
-        resultElement.innerText = 'Submitting...';
-
-        // Perform any additional actions with the form values
-        // For example, you can send an AJAX request to the server with the formValues
-
-        // After handling the form submission, you can update the resultElement
-        setTimeout(() => {
-            resultElement.innerText = counterElement.innerText;
-        }, 1000); // Adjust the timeout as needed
+        resultElement.innerText = dialValues.join(', ');
     });
 </script>
 

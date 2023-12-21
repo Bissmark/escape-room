@@ -60,8 +60,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
 ROOT_URLCONF = 'escaperoom.urls'
 
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
@@ -85,9 +83,6 @@ WSGI_APPLICATION = 'escaperoom.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-import django_heroku
-import dj_database_url
-
 import django_heroku
 import dj_database_url
 

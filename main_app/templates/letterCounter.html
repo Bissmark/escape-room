@@ -1,0 +1,57 @@
+<form action="{% url 'submit' %}" method="post" id="counter-form">
+    {% csrf_token %}
+    <div class="flex flex-row bg-red-500 mx-auto w-1/2 rounded-sm">
+        {% for letter in "abcdefghi" %}
+            <div class="flex flex-col w-full items-center border-solid border-2 border-gray-500">
+                <button type="button" onclick="increment('{{ letter }}')">▲</button>
+                <h1 id="counter-{{ letter }}">{{ letter }}</h1>
+                <button type="button" onclick="decrement('{{ letter }}')">▼</button>
+                <input type="hidden" name="counter-{{ letter }}" value="{{ letter }}">
+            </div>
+        {% endfor %}
+        <button class="w-full text-blue-500" type="submit">⬤</button>
+    </div>
+</form>
+
+<div id="result"></div>
+
+<script>
+    const increment = (letter) => {
+        const counterElement = document.getElementById(`counter-${letter}`);
+        const currentValue = counterElement.innerText.charCodeAt(0);
+
+        if (currentValue < 'i'.charCodeAt(0)) {
+            counterElement.innerText = String.fromCharCode(currentValue + 1);
+        } else {
+            counterElement.innerText = 'a';
+        }
+
+        // Update the hidden input value
+        document.querySelector(`input[name="counter-${letter}"]`).value = counterElement.innerText;
+    }
+
+    const decrement = (letter) => {
+        const counterElement = document.getElementById(`counter-${letter}`);
+        const currentValue = counterElement.innerText.charCodeAt(0);
+
+        if (currentValue > 'a'.charCodeAt(0)) {
+            counterElement.innerText = String.fromCharCode(currentValue - 1);
+        } else {
+            counterElement.innerText = 'i';
+        }
+
+        // Update the hidden input value
+        document.querySelector(`input[name="counter-${letter}"]`).value = counterElement.innerText;
+    }
+
+    document.getElementById('counter-form').addEventListener('submit', function (event) {
+        // Prevent the form from submitting immediately
+        event.preventDefault();
+
+        const dialValues = Array.from(document.querySelectorAll('[name^="counter-"]')).map(input => input.value);
+
+        // Display the values in the resultElement
+        const resultElement = document.getElementById('result');
+        resultElement.innerText = dialValues.join(', ');
+    });
+</script>

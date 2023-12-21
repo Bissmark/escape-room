@@ -17,6 +17,7 @@
         <p>Location: {{ room.location }}</p>
     </div>
       <div>
+        {% if rooms.length %}
         <form action="{% url 'add_puzzle' room.id %}" method="post">
           {% csrf_token %}
           <label for="puzzle">Select Puzzle:</label>
@@ -29,6 +30,7 @@
           </select>
           <input type="submit" value="Add Puzzle">
         </form>
+        {% endif %}
 
         <h2>Puzzles in this Room </h2>
         <ul>

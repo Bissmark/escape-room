@@ -121,7 +121,7 @@ class PuzzleCreate(CreateView):
 
 class PuzzleUpdate(UpdateView):
     model = Puzzle
-    fields = ['description', 'difficulty']
+    fields = '__all__'
 
 class PuzzleDelete(DeleteView):
     model = Puzzle
@@ -141,7 +141,7 @@ def puzzles_detail(request, puzzle_id):
 
 def submit(request):
     if request.method == 'POST':
-        values = [request.POST[f'counter-{counter}'] for counter in "abcd"]
+        values = [request.POST[f'counter-{counter}'] for counter in "1234"]
         return HttpResponse(f'Submitted Values: {", ".join(values)}')
     else:
         return HttpResponse('Invalid Request')

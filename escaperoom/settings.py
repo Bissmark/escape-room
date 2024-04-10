@@ -90,16 +90,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'escaperooms'
-    },
-    'default': dj_database_url.config(        
-        # Replace this value with your local database's connection string.        
-        default='postgres://escaperoom:L9qm8bheh5uAdnRd4jjqpPRAfnbZ8cY1@dpg-cob39pa1hbls73alndv0-a/escaperoom_4fob',        
-        conn_max_age=600    )
+    }
 }
 
 if 'RENDER' in os.environ:
     DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
+        default=os.environ.get('RENDER_DATABASE'),
         conn_max_age=600
     )
 

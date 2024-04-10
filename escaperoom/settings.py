@@ -93,7 +93,7 @@ DATABASES = {
     # }
         'default': dj_database_url.config(        
             # Replace this value with your local database's connection string.        
-            default='postgresql://postgres:postgres@localhost:5432/mysite',        
+            default='postgres://escaperoom:L9qm8bheh5uAdnRd4jjqpPRAfnbZ8cY1@dpg-cob39pa1hbls73alndv0-a/escaperoom_4fob',        
             conn_max_age=600    )
 }
 
